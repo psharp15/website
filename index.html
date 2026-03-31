@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phoebe Sharp — Physicist & Science Communicator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --color-olive: #585123;
+      --color-teal: #9dbf9e;
+      --color-tan: #f2a65a;
+      --color-blue: #7389ae;
+      --color-navy: #416788;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.7;
+      color: #1a1a1a;
+    }
+
+    .hero-section {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: url('brand_assets/Halld.jpg') center/cover no-repeat fixed;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(88, 81, 35, 0.3) 0%, rgba(65, 103, 136, 0.4) 100%);
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      z-index: 10;
+      max-width: 600px;
+    }
+
+    .hero-content h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-content p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+      margin-bottom: 30px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: white;
+      animation: bounce 2s infinite;
+      z-index: 10;
+    }
+
+    .scroll-indicator svg {
+      width: 24px;
+      height: 24px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    .side-nav {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 300px;
+      height: 100vh;
+      background: linear-gradient(180deg, var(--color-olive) 0%, var(--color-navy) 100%);
+      padding: 40px 30px;
+      z-index: 50;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      overflow-y: auto;
+    }
+
+    .side-nav.active {
+      transform: translateX(0);
+    }
+
+    .side-nav-header {
+      color: var(--color-tan);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .side-nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .side-nav a:hover {
+      color: var(--color-tan);
+      padding-left: 10px;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      right: 30px;
+      top: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--color-tan);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(242, 166, 90, 0.3);
+    }
+
+    .menu-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    .menu-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--color-navy);
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .content-wrapper {
+      margin-left: 0;
+      margin-top: 100vh;
+      z-index: 2;
+      position: relative;
+    }
+
+    section {
+      padding: 60px 40px;
+      display: flex;
+      align-items: center;
+      background: #1e2a3a;
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: #f5ede0;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-tan) 0%, var(--color-teal) 100%);
+      margin-bottom: 24px;
+      border-radius: 2px;
+    }
+
+    .section-alt {
+      background: #16202e;
+    }
+
+    .card {
+      background: #f5f0ea;
+      border-radius: 8px;
+      padding: 22px 26px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+      margin-bottom: 16px;
+      border-left: 4px solid var(--color-tan);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(65, 103, 136, 0.15);
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-navy);
+      margin-bottom: 12px;
+    }
+
+    .card-meta {
+      font-size: 0.875rem;
+      color: var(--color-tan);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .card ul {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .card li {
+      padding: 6px 0;
+      color: #555;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background-color: var(--color-navy);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(65, 103, 136, 0.2);
+      border: none;
+      cursor: pointer;
+      margin-right: 12px;
+      margin-top: 12px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(65, 103, 136, 0.35);
+      background-color: #315270;
+    }
+
+    footer {
+      background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-olive) 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+      font-size: 0.875rem;
+    }
+
+    .social-links {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .social-link {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .social-link:hover {
+      background: var(--color-tan);
+      color: var(--color-navy);
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 44px 24px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .side-nav {
+        width: 100%;
+      }
+    }
+
+    .highlight {
+      color: var(--color-tan);
+    }
+  </style>
+</head>
+<body>
+  <!-- Fixed Hero Section -->
+  <div class="hero-section">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1>Phoebe <span class="highlight">Sharp</span></h1>
+      <p>Physicist | Researcher | Science Communicator</p>
+    </div>
+    <div class="scroll-indicator">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+      <p style="font-size: 0.75rem; margin-top: 8px;">SCROLL</p>
+    </div>
+  </div>
+
+  <!-- Menu Toggle Button -->
+  <button class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Side Navigation -->
+  <nav class="side-nav" id="sideNav">
+    <div class="side-nav-header">Menu</div>
+    <a href="#about">About</a>
+    <a href="#education">Education</a>
+    <a href="#research">Research</a>
+    <a href="#experience">Experience</a>
+    <a href="#leadership">Leadership</a>
+    <a href="#presentations">Presentations</a>
+    <a href="#awards">Awards</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- About Section -->
+    <section id="about">
+      <div class="section-inner">
+        <h2 class="section-title">About Me</h2>
+        <div class="divider"></div>
+        <p style="font-size: 1.125rem; color: #c8bfb4; margin-bottom: 24px; line-height: 1.8;">
+          I'm a physicist with a deep commitment to scientific excellence and community impact. Currently pursuing my Ph.D. in Physics at George Washington University, I combine rigorous experimental research with a passion for education and diversity in STEM.
+        </p>
+        <p style="font-size: 1.125rem; color: #c8bfb4; line-height: 1.8;">
+          My work spans experimental nuclear physics, science education, and community engagement. I believe in making physics accessible and inspiring the next generation of scientists.
+        </p>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section-alt">
+      <div class="section-inner">
+        <h2 class="section-title">Education</h2>
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>George Washington University</h3>
+          <div class="card-meta">Washington, DC | August 2019 – Present</div>
+          <ul>
+            <li>• <strong>Ph.D. in Physics</strong> — Exp. 2026 </li>
+            <li>• <strong>Master's in Science, Physics</strong> — Summer 2022</li>
+            <li>• <strong>Master's in Philosophy, Physics</strong> — Fall 2022</li>
+            <li>• <strong>Graduate Certificate in Women, Gender, and Sexuality Studies</strong> — Spring 2024</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-teal);">
+          <h3>Rhodes College</h3>
+          <div class="card-meta">Memphis, TN | August 2014 – May 2018</div>
+          <ul>
+            <li>• <strong>B.S., Physics</strong> with Minor in German Studies</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Section -->
+    <section id="research">
+      <div class="section-inner">
+        <h2 class="section-title">Research Experience</h2>
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>Experimental Nuclear Physics</h3>
+          <div class="card-meta">George Washington University | June 2020 – Present</div>
+          <p style="margin-bottom: 12px;"><strong>Thesis Topic:</strong> Exploring Neutron-Proton SRC Pair Dominance with a Real Photon Beam at Jefferson Lab</p>
+          <p style="margin-bottom: 12px;">With Prof. Axel Schmidt</p>
+          <ul>
+            <li>• Member of GlueX Collaboration</li>
+            <li>• Service work: improving pair spectrometer calibration</li>
+            <li>• Worked 15 shifts (12 as Leader shifts)</li>
+            <li>• Took 464 runs with carbon, deuterium, and helium targets</li>
+            <li>• Performed simulations for beam energy optimization</li>
+            <li>• Studied initial signal of pion channel online during data collection</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-blue);">
+          <h3>Physics Education Research</h3>
+          <div class="card-meta">George Washington University | August 2019 – May 2020</div>
+          <p style="margin-bottom: 12px;">With Prof. Mark Reeves</p>
+          <ul>
+            <li>• Collected and refined curricular material from GW's "Introductory Physics with Biological Applications"</li>
+            <li>• Observed implementation and trained new research students</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section-alt">
+      <div class="section-inner">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>American Physical Society (APS)</h3>
+          <div class="card-meta">Washington, DC, and later Remote</div>
+
+          <div style="margin-bottom: 24px;">
+            <h4 style="font-weight: 700; color: #333; margin-top: 16px; margin-bottom: 8px;">Public Engagement Contractor</h4>
+            <p style="font-size: 0.875rem; color: #777; margin-bottom: 8px;">August 2022 – August 2024</p>
+            <p style="color: #555;">Communicate with communities to meet logistical needs and synthesize data on community programs and participants.</p>
+          </div>
+
+          <div style="margin-bottom: 24px;">
+            <h4 style="font-weight: 700; color: #333; margin-top: 16px; margin-bottom: 8px;">Project Development Intern in Public Engagement</h4>
+            <p style="font-size: 0.875rem; color: #777; margin-bottom: 8px;">January 2020 – August 2022</p>
+            <ul>
+              <li>• Matched 78 teachers and physicists for Physicist To Go program</li>
+              <li>• Managed 2021 Advocates Summit: trained 185+ teachers worldwide</li>
+              <li>• Collected and analyzed data for STEP UP program (gender equity in physics)</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom: 24px;">
+            <h4 style="font-weight: 700; color: #333; margin-top: 16px; margin-bottom: 8px;">Education and Diversity Programs Coordinator</h4>
+            <p style="font-size: 0.875rem; color: #777; margin-bottom: 8px;">August 2018 – August 2019</p>
+            <ul>
+              <li>• Coordinated APS Bridge Program operations (800 circulation newsletter)</li>
+              <li>• Established APS presence at 2019 Summer AAPT meeting (1,000+ attendees)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <!--
+     Technical Skills Section
+  <section class="py-20 md:py-32" style="background: linear-gradient(135deg, #9dbf9e 0%, #7389ae 100%); position: relative;">
+    <div class="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+      <h2 class="section-title" style="color: white; margin-bottom: 10px;">Technical Skills</h2>
+      <div style="height: 3px; width: 60px; background: white; border-radius: 2px; margin: 24px 0;"></div>
+
+      <p class="text-white text-lg mb-8 opacity-95" style="max-width: 600px;">Proficient in a comprehensive toolkit for research, data analysis, and project management</p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+        <div style="background: rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 20px; backdrop-filter: blur(10px);">
+          <div style="font-size: 1.875rem; margin-bottom: 12px;">🔬</div>
+          <h3 class="font-bold text-white mb-2">Programming</h3>
+          <p class="text-white text-sm opacity-90">C++, Python, Bash</p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 20px; backdrop-filter: blur(10px);">
+          <div style="font-size: 1.875rem; margin-bottom: 12px;">📊</div>
+          <h3 class="font-bold text-white mb-2">Data Analysis</h3>
+          <p class="text-white text-sm opacity-90">ROOT CERN, Gnuplot, </p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 20px; backdrop-filter: blur(10px);">
+          <div style="font-size: 1.875rem; margin-bottom: 12px;">📝</div>
+          <h3 class="font-bold text-white mb-2">Documentation</h3>
+          <p class="text-white text-sm opacity-90">LaTeX, Technical Writing</p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 20px; backdrop-filter: blur(10px);">
+          <div style="font-size: 1.875rem; margin-bottom: 12px;">💼</div>
+          <h3 class="font-bold text-white mb-2">Tools & Platforms</h3>
+          <p class="text-white text-sm opacity-90">Asana, Slack, Zoom, Microsoft Suite, Mac OS, Whova, Google Suite</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="section-alt">
+      <div class="section-inner">
+        <h2 class="section-title">Leadership Experience</h2>
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>Jefferson Lab Graduate Student & PostDoc Association (GSPDA)</h3>
+          <div class="card-meta">Co-President | June 2023 – July 2024</div>
+          <ul>
+            <li>• Organized a computing workshop with 4 leading experts (JLab Farm, ML/AI, Git) — 30 participants, $500 Physics Division sponsorship</li>
+            <li>• Facilitated presentations by senior scientists on research topics relevant to early-career scientists</li>
+            <li>• Advocated for and implemented hygiene products in women's restrooms at the facility</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-teal);">
+          <h3>GWU Physics Graduate Student Spokesperson</h3>
+          <div class="card-meta">August 2022 – May 2024</div>
+          <ul>
+            <li>• Organized regular town halls for graduate students</li>
+            <li>• Acted as liaison between the physics department and the graduate student body</li>
+            <li>• Matched experienced graduate students with incoming students through a Buddy Program</li>
+          </ul>
+        </div>
+
+        <!-- <div class="card" style="border-left-color: var(--color-blue);">
+          <h3>Physics Education Research Consortium of Graduate Students (PERCoGS)</h3>
+          <div class="card-meta">Interim President (Dec 2022 – Aug 2023) | January 2021 – August 2023</div>
+          <ul>
+            <li>• Served as graduate student liaison to the APS Topical Group on Physics Education Research</li>
+            <li>• Wrote and was awarded a $1,200 mini-grant from the APS Forum on Education to fund 8 speakers for the 2021 Early Career Symposium Series</li>
+          </ul>
+        </div> -->
+
+        <div class="card">
+          <h3>GWU Physics Department Equity, Diversity & Inclusion Committee</h3>
+          <div class="card-meta">Graduate Student Representative | June 2020 – December 2022</div>
+          <ul>
+            <li>• Chair, Department Culture Subcommittee</li>
+            <li>• Represented graduate students alongside faculty, postdocs, and staff</li>
+            <li>• Assisted in writing the application for the AIP TEAM UP Workshop series</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-teal);">
+          <h3>GWU Physicist of Underrepresented GenderS (PUGS)</h3>
+          <div class="card-meta">Member | Fall 2024 – Present</div>
+          <ul>
+            <li>• Led organizing team for a student visit to Thomas Jefferson National Accelerator Facility (April 2025)</li>
+            <li>• Built a GWU–Vanderbilt University partnership by hosting Dr. Rithya Kunnawalkam Elayavalli, resulting in student internships and interdisciplinary collaborations</li>
+            <li>• Mentor for younger graduate and undergraduate students in the group</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-blue);">
+          <h3>Newport News Master Gardener Association</h3>
+          <div class="card-meta">Program Manager Volunteer | 2024 – Present</div>
+          <ul>
+            <li>• Leading efforts to convert Thomas Jefferson National Accelerator Facility's 179 acres toward more sustainable and environmentally conscious land management</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Presentations Section -->
+    <section id="presentations">
+      <div class="section-inner">
+        <h2 class="section-title">Conference Presentations</h2>
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>Invited & Contributed Talks</h3>
+          <div class="card-meta">Selected highlights</div>
+          <ul>
+            <li>• <strong>2025 APS Global Physics Summit</strong>, Anaheim, CA — Invited Talk: "It doesn't take a PhD"; Contributed Talk & Poster on Short-Range Correlations at Jefferson Lab</li>
+            <li>• <strong>2024 APS DNP Fall Meeting</strong>, Boston, MA — "Testing the universality of short-range correlations using electron and photon probes at Jefferson Lab"</li>
+            <li>• <strong>2024 G-WiP Summit</strong>, Johns Hopkins University — "Why So Few? Gender Diversity in Physics"</li>
+            <li>• <strong>2024 APS April Meeting</strong>, Sacramento, CA — "Testing the universality of short-range correlations using electron and photon probes at Jefferson Lab"</li>
+            <li>• <strong>2023 EINN Conference</strong>, Paphos, Cyprus — "Studying Two Nucleon Interactions through ρ⁰ photoproduction at Jefferson Lab"</li>
+            <li>• <strong>2023 JLab User Organization Meeting</strong>, Newport News, VA — "Short Range Correlations Through ρ⁰ Photoproduction" <span style="color: var(--color-tan); font-weight: 600;">★ 1st Place Poster Award</span></li>
+            <li>• <strong>2022 Gordon Conference for Photonuclear Reactions</strong>, Holderness, NH — "Short Range Nuclear Structure Investigated Through ρ⁰ Meson Photoproduction"</li>
+            <li>• <strong>2022 APS DNP Fall Meeting</strong>, New Orleans, LA — "Probing the isospin structure of short-range correlations using ρ⁰ meson photoproduction"</li>
+            <li>• <strong>2021 APS DNP Fall Meeting</strong> — "Using Generalized Contact Formalism and Real Photon Beams to Explore Short Range Nuclear Structure"</li>
+            <li>• <strong>2020 APS DNP Fall Meeting</strong> — "Studying Nuclear Structure at Short Range with Real Photon Beams"</li>
+            <li>• <strong>2018 IDeA INBRE Conference</strong>, Fayetteville, AR — Ultrasonic bone assessment <span style="color: var(--color-tan); font-weight: 600;">★ 1st Place Award, Physics Session</span></li>
+            <li>• <strong>2016 Tennessee Academy of Sciences</strong> — Ultrasonic backscatter measurements <span style="color: var(--color-tan); font-weight: 600;">★ 1st Place Award, Math & Physics Session</span></li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-teal);">
+          <h3>Selected Publications</h3>
+          <ul>
+            <li>• P. Sharp, A. Schmidt, "Observing short-range correlations in nuclei through ρ⁰ photo-production," submitted to <em>Eur. Phys. J. A</em> (2024)</li>
+            <li>• Pybus, J., Sharp, P., et al. "Search for axion-like particles through nuclear Primakoff production using the GlueX detector," <em>arXiv:2308.06339</em> (2023)</li>
+            <li>• Adhikari, S., Sharp, P., et al. "Search for Photoproduction of Axionlike Particles at GlueX," <em>Physical Review D</em> 105(5): 052007 (2022)</li>
+            <li>• Adhikari, S., Sharp, P., et al. "Measurement of Spin Density Matrix Elements in Λ(1520) Photoproduction," <em>Physical Review C</em> 105(3): 035201 (2022)</li>
+            <li>• Hoffmeister BK, Gray AJ, Sharp PC, et al. "Ultrasonic bone assessment using the backscatter amplitude decay constant," <em>Ultrasound in Medicine and Biology</em> 46(9): 2412–2423 (2020)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section id="awards" class="section-alt">
+      <div class="section-inner">
+        <h2 class="section-title">Awards & Honors</h2>
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>Fellowships & Scholarships</h3>
+          <ul>
+            <li>• <strong>2025–26 ARCS Metropolitan Washington Chapter Scholar</strong> — $15,000 tuition assistance</li>
+            <li>• <strong>2022–23 DOE Office of Science Graduate Student Research (SCGSR) Fellowship</strong> — $43,200 stipend to conduct onsite research at Jefferson Lab</li>
+            <li>• <strong>2021–22 Jefferson Science Associates Fellowship</strong> — $11,000 tuition award + $1,500 travel funding</li>
+            <li>• <strong>2021 Fischer Family Award</strong> — $5,000 award to support graduate students</li>
+            <li>• <strong>2017 Rhodes College Summer Service Fellowship</strong> — Funded summer internship with A Step Ahead Foundation</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-teal);">
+          <h3>Travel Awards & Grants</h3>
+          <ul>
+            <li>• <strong>2025 Jefferson Science Associates Junior Scientist Travel Award</strong> — $1,000, APS Global Physics Summit</li>
+            <li>• <strong>2025 APS Forum on Graduate Student Affairs Invited Speaker Travel Grant</strong> — $500</li>
+            <li>• <strong>2025 APS Topical Group for Energy Research & Applications</strong> — $500, APS GERA workshop</li>
+            <li>• <strong>2025 APS Forum on Education Travel Grant</strong> — $280 registration waiver</li>
+            <li>• <strong>2024 APS Division of Nuclear Physics Travel Award</strong> — $280, APS April Meeting</li>
+            <li>• <strong>2023 JSA Travel Award</strong> — $1,000, EINN Conference, Paphos, Cyprus</li>
+            <li>• <strong>2022 JSA Travel Award</strong> — $500, APS DNP Meeting, New Orleans</li>
+            <li>• <strong>2022 PERLOC Travel Mini-Grant</strong> — $500, Summer AAPT meeting & PERC</li>
+            <li>• <strong>2021 PERTG Mini-Grant</strong> — $1,200, PERCoGS Early Career Symposium speakers</li>
+            <li>• <strong>2017 SPS National Reporter Award</strong> — $500, Acoustical Society of America Conference</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-left-color: var(--color-blue);">
+          <h3>Presentation Awards</h3>
+          <ul>
+            <li>• <strong>2023 JLab User Organization 1st Place Poster Prize</strong> — $500 cash + $500 travel award</li>
+            <li>• <strong>2018 IDeA INBRE 1st Place Award</strong> — Physics Session, Fayetteville, AR</li>
+            <li>• <strong>2016 Tennessee Academy of Sciences 1st Place Award</strong> — Math & Physics Session</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="padding-bottom: 40px;">
+      <div class="section-inner">
+        <h2 class="section-title">Get in Touch</h2>
+        <div class="divider"></div>
+
+        <p style="font-size: 1.125rem; color: #c8bfb4; margin-bottom: 28px; max-width: 600px;">
+          I'm always interested in discussing research opportunities, education initiatives, and collaboration. Feel free to reach out!
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;">
+          <div>
+            <h3 style="font-weight: 700; color: #f5ede0; margin-bottom: 8px;">Email</h3>
+            <a href="mailto:phoebesharp.mayo@icloud.com" style="color: var(--color-tan); text-decoration: none; font-weight: 600;">phoebesharp.mayo@icloud.com</a>
+          </div>
+          <div>
+            <h3 style="font-weight: 700; color: #f5ede0; margin-bottom: 8px;">LinkedIn</h3>
+            <a href="https://www.linkedin.com/in/phoebesharp/" target="_blank" style="color: var(--color-tan); text-decoration: none; font-weight: 600;">Visit Profile</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Phoebe Sharp. All rights reserved.</p>
+      <div class="social-links">
+        <a href="mailto:phoebesharp.mayo@icloud.com" class="social-link" title="Email">✉</a>
+        <a href="https://www.linkedin.com/in/phoebesharp/" target="_blank" class="social-link" title="LinkedIn">in</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    const menuToggle = document.getElementById('menuToggle');
+    const sideNav = document.getElementById('sideNav');
+    const navLinks = sideNav.querySelectorAll('a');
+
+    // Toggle menu
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      sideNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        sideNav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!menuToggle.contains(e.target) && !sideNav.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        sideNav.classList.remove('active');
+      }
+    });
+
+    // Show side nav on scroll
+    let lastScrollY = 0;
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      // Automatically show nav when scrolled past hero
+      if (scrollY > window.innerHeight * 0.5) {
+        // You can add auto-open logic here if desired
+      }
+      lastScrollY = scrollY;
+    });
+  </script>
+</body>
+</html>
